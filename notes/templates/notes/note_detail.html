@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="mb-3">{{ object.title }}</h2>
+          <p class="mb-4">{{ object.content }}</p>
+          <p class="text-muted small">Created: {{ object.created_at|date:'Y-m-d H:i' }} | Updated: {{ object.updated_at|date:'Y-m-d H:i' }}</p>
+          {% if user.is_superuser %}
+            <span class="badge bg-info text-dark">Owner: {{ object.owner.username }}</span><br><br>
+          {% endif %}
+          {% if user == object.owner or user.is_superuser %}
+            <a href="{% url 'note-update' object.pk %}" class="btn btn-warning me-2">Edit</a>
+            <a href="{% url 'note-delete' object.pk %}" class="btn btn-danger">Delete</a>
+          {% endif %}
+          <a class="btn btn-link mt-3" href="{% url 'note-list' %}">Back to list</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

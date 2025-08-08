@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">{% if user.is_superuser %}All Notes{% else %}Your Notes{% endif %}</h2>
+    <a href="{% url 'note-create' %}" class="btn btn-success">Create New Note</a>
+  </div>
+  <div class="row">
+    {% for note in notes %}
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title"><a href="{% url 'note-detail' note.pk %}">{{ note.title }}</a></h5>
+            <p class="card-text small text-muted">{{ note.created_at|date:'Y-m-d H:i' }}</p>
+            {% if user.is_superuser %}
+              <span class="badge bg-info text-dark">Owner: {{ note.owner.username }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12"><div class="alert alert-info">No notes found.</div></div>
+    {% endfor %}
+  </div>
+{% endblock %}
