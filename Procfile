@@ -1,1 +1,1 @@
-web: gunicorn personalnotes.wsgi
+web: gunicorn personalnotes.wsgi:application
